@@ -72,13 +72,13 @@ module vector_regfile (
 
 reg [127:0] regfile [0:7];
 
-// Initialize registers (IMPORTANT for simulation)
+
 integer i;
 initial begin
     for(i = 0; i < 8; i = i + 1)
         regfile[i] = 128'd0;
 
-    // preload test values
+    // preload test value
     regfile[0] = {32'd1,32'd2,32'd3,32'd4};
     regfile[1] = {32'd5,32'd6,32'd7,32'd8};
 end
@@ -104,7 +104,7 @@ always @(*) begin
     opcode = instruction[7:6];
     rs1    = instruction[5:3];
     rs2    = instruction[2:0];
-    rd     = 3'b010;  // write to register 2 (better for testing)
+    rd     = 3'b010;  
 end
 
 endmodule
