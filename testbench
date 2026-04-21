@@ -1,0 +1,44 @@
+`timescale 1ns/1ps
+
+module tb_top;
+
+reg clk;
+reg [7:0] instruction;
+
+top uut (
+    .clk(clk),
+    .instruction(instruction)
+);
+
+// Clock generation
+always #5 clk = ~clk;
+
+initial begin
+    // 🔹 Dump file for waveform
+    $dumpfile("simd_wave.vcd");
+    $dumpvars(0, tb_top);
+
+    clk = 0;
+
+    // ADD
+    instruction = 8'b00_000_001;
+    #20;
+
+    // SUB
+    instruction = 8'b01_000_001;
+    #20;
+
+    // MUL
+    instruction = 8'b10_000_001;
+    #20;
+
+    $finish;
+end
+
+// Monitor output (optional but useful)
+initial begin
+    $monitor("Time=%0t | Instr=%b | Result=%h", 
+              $time, instruction, uut.result);
+end
+
+endmodule
