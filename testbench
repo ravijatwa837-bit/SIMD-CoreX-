@@ -1,13 +1,17 @@
+// Code your testbench here
+// or browse Examples
 `timescale 1ns/1ps
 
 module tb_top;
 
 reg clk;
 reg [7:0] instruction;
+  wire [127:0] result;
 
 top uut (
     .clk(clk),
-    .instruction(instruction)
+  .instruction(instruction),
+  .result(result)
 );
 
 // Clock generation
