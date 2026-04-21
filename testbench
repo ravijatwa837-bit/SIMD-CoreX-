@@ -14,7 +14,6 @@ top uut (
 always #5 clk = ~clk;
 
 initial begin
-    // 🔹 Dump file for waveform
     $dumpfile("simd_wave.vcd");
     $dumpvars(0, tb_top);
 
@@ -35,7 +34,7 @@ initial begin
     $finish;
 end
 
-// Monitor output (optional but useful)
+
 initial begin
     $monitor("Time=%0t | Instr=%b | Result=%h", 
               $time, instruction, uut.result);
