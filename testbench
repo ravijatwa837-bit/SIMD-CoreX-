@@ -1,27 +1,37 @@
-// Code your testbench here
-// or browse Examples
 `timescale 1ns/1ps
 
 module tb_top;
 
 reg clk;
 reg [7:0] instruction;
-  wire [127:0] result;
+wire [127:0] result;
 
+// DUT instance
 top uut (
     .clk(clk),
-  .instruction(instruction),
-  .result(result)
+    .instruction(instruction),
+    .result(result)
 );
 
-// Clock generation
+// Clock generation (10ns period)
+initial begin
+    clk = 0;
+end
+
 always #5 clk = ~clk;
 
+// Waveform dump
 initial begin
-    $dumpfile("simd_wave.vcd");
-    $dumpvars(0, tb_top);
+    $dumpfile("waveform.vcd");   // VCD file for GTKWave
+    $dumpvars(0, tb_top);        // Dump all signals in testbench
+end
 
-    clk = 0;
+// Stimulus
+initial begin
+    instruction = 8'b00000000;
+
+    // Wait for waveform clarity
+    #10;
 
     // ADD
     instruction = 8'b00_000_001;
@@ -35,13 +45,16 @@ initial begin
     instruction = 8'b10_000_001;
     #20;
 
+    // Extra delay to clearly see last transition
+    #40;
+
     $finish;
 end
 
-
+// Console monitoring
 initial begin
-    $monitor("Time=%0t | Instr=%b | Result=%h", 
-              $time, instruction, uut.result);
+    $monitor("Time=%0t | clk=%b | instr=%b | result=%h",
+              $time, clk, instruction, result);
 end
 
 endmodule
